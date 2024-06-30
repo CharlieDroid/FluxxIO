@@ -1,0 +1,23 @@
+# NOTES FOR CLOSED LOOP KINEMATIC CHAIN:
+# Closing frame is the frame produced by onshape-to-robot
+parent_idx = 0  # parent link, look for joint with link parent name
+child_idx = 3  # child link, look for joint with link child name
+joint_idx = 1  # joint, can be any closing frame joint
+joint_parent_idx = 1  # joint, should be closing_linkname_2
+joint_child_idx = 4  # joint, should be closing_linkname_1
+parent_infos = p.getJointInfo(boxId, parent_idx)
+child_infos = p.getJointInfo(boxId, child_idx)
+joint_infos = p.getJointInfo(boxId, joint_idx)
+joint_parent_infos = p.getJointInfo(boxId, joint_parent_idx)
+joint_child_infos = p.getJointInfo(boxId, joint_child_idx)
+axis_idx = 13
+p.createConstraint(boxId,
+                   parent_idx,
+                   boxId,
+                   child_idx,
+                   p.JOINT_POINT2POINT,
+                   joint_infos[axis_idx],
+                   joint_parent_infos[axis_idx + 1],
+                   joint_child_infos[axis_idx + 1])
+
+- Joints need to be initialized with zero velocity and zero force
